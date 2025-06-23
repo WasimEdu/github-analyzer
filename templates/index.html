@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ profile.name }} - GitHub Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card shadow p-4">
+            <div class="text-center">
+                <img src="{{ profile.avatar_url }}" class="rounded-circle mb-3" width="150">
+                <h2>{{ profile.name }} <small class="text-muted">(@{{ profile.username }})</small></h2>
+            </div>
+            <hr>
+            <ul class="list-group mb-3">
+                <li class="list-group-item"><strong>📁 Public Repositories:</strong> {{ profile.public_repos }}</li>
+                <li class="list-group-item"><strong>⭐ Total Stars:</strong> {{ profile.stars }}</li>
+                <li class="list-group-item"><strong>👥 Followers:</strong> {{ profile.followers }}</li>
+            </ul>
+
+            <h4 class="mt-4">🧠 Top Languages:</h4>
+            <ul class="list-group">
+                {% for lang, count in profile.top_languages.items() %}
+                    <li class="list-group-item">
+                        {{ lang }} <span class="badge bg-secondary float-end">{{ count }} repos</span>
+                    </li>
+                {% endfor %}
+            </ul>
