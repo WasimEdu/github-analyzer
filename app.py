@@ -20,4 +20,12 @@ def index():
             return render_template('index.html', error = "User not found")
         
 
+    languages = {}
+    for repo in repo_data:
+        lang = repo.get('languges')
+        if lang:
+            languages[lang] = languages.get(lang, 0) + 1
+
+    return render_template('profile.html', user = user_data, repos = repo_data, languages = languages)
+    return render_template('index.html')
 
