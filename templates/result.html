@@ -1,140 +1,299 @@
 {% extends "base.html" %}
 
-{% block title %}{{ profile.name }} | GitHub Analyzer{% endblock %}
+{% block title %}{{ profile.name }} | GitScope Analytics{% endblock %}
 
 {% block content %}
-<section class="result-hero glass-card">
-    <div class="profile-head">
-        <img src="{{ profile.avatar_url }}" alt="{{ profile.username }} avatar" class="avatar">
-        <div class="profile-copy">
-            <p class="eyebrow">GitHub profile intelligence</p>
-            <h1>{{ profile.name }}</h1>
-            <p class="profile-handle">@{{ profile.username }}</p>
-            <p class="profile-bio">{{ profile.bio }}</p>
-
-            <div class="meta-row">
-                {% if profile.location %}<span>{{ profile.location }}</span>{% endif %}
-                {% if profile.company %}<span>{{ profile.company }}</span>{% endif %}
-                <span>On GitHub since {{ profile.created_at }}</span>
-            </div>
-
-            <div class="link-row">
-                <a href="{{ profile.profile_url }}" target="_blank" rel="noreferrer">Open GitHub Profile</a>
-                {% if profile.blog %}
-                <a href="{{ profile.blog }}" target="_blank" rel="noreferrer">Visit Website</a>
+<div class="profile-header">
+    <div class="profile-banner">
+        <div class="banner-gradient"></div>
+    </div>
+    
+    <div class="profile-info-card">
+        <div class="profile-main">
+            <div class="avatar-wrapper">
+                <img src="{{ profile.avatar_url }}" alt="{{ profile.username }} avatar" class="profile-avatar">
+                {% if profile.hireable %}
+                <div class="hireable-badge" title="Open to work">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
                 {% endif %}
-                <a href="{{ url_for('profile_api', username=profile.username) }}" target="_blank" rel="noreferrer">View JSON API</a>
+            </div>
+            
+            <div class="profile-details">
+                <div class="profile-title-row">
+                    <h1 class="profile-name">{{ profile.name }}</h1>
+                    {% if profile.hireable %}
+                    <span class="hireable-label">Available for hire</span>
+                    {% endif %}
+                </div>
+                <p class="profile-username">@{{ profile.username }}</p>
+                <p class="profile-bio">{{ profile.bio }}</p>
+                
+                <div class="profile-meta">
+                    {% if profile.location %}
+                    <div class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        {{ profile.location }}
+                    </div>
+                    {% endif %}
+                    {% if profile.company %}
+                    <div class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                        </svg>
+                        {{ profile.company }}
+                    </div>
+                    {% endif %}
+                    <div class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        Joined {{ profile.created_at }}
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <a href="{{ profile.profile_url }}" target="_blank" rel="noreferrer" class="btn-github">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-6.225 0-1.38.45-2.535 1.2-3.435-.12-.3-.525-1.545.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.645 1.635.24 2.88.12 3.18.75.9 1.2 2.055 1.2 3.435 0 4.905-2.805 5.925-5.475 6.225.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
+                        View on GitHub
+                    </a>
+                    {% if profile.blog %}
+                    <a href="{{ profile.blog }}" target="_blank" rel="noreferrer" class="btn-secondary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                        </svg>
+                        Website
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('profile_api', username=profile.username) }}" target="_blank" rel="noreferrer" class="btn-outline">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                        API
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="activity-score-card">
+            <div class="score-circle">
+                <svg class="score-ring" viewBox="0 0 120 120">
+                    <circle class="score-ring-bg" cx="60" cy="60" r="54"/>
+                    <circle class="score-ring-fill" cx="60" cy="60" r="54" 
+                            stroke-dasharray="{{ (profile.activity_score / 100 * 339.292)|round }}, 339.292"/>
+                </svg>
+                <div class="score-value">{{ profile.activity_score }}</div>
+            </div>
+            <div class="score-info">
+                <span class="score-label">Activity Score</span>
+                <span class="score-updated">Updated {{ profile.generated_at }}</span>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="spotlight-card">
-        <p class="spotlight-label">Activity score</p>
-        <strong>{{ profile.activity_score }}/100</strong>
-        <span>Updated analysis generated on {{ profile.generated_at }}</span>
+<section class="stats-section">
+    <div class="stats-container">
+        {% for stat in profile.stats %}
+        <div class="stat-card stat-{{ stat.accent }}">
+            <div class="stat-icon">
+                {% if stat.label == 'Repositories' %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                {% elif stat.label == 'Followers' %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                </svg>
+                {% elif stat.label == 'Total Stars' %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                {% elif stat.label == 'Forks' %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/><path d="M12 12v3"/>
+                </svg>
+                {% elif stat.label == 'Watching' %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+                {% else %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                {% endif %}
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">{{ stat.label }}</span>
+                <span class="stat-value">{{ "{:,}".format(stat.value) }}</span>
+                <span class="stat-compact">{{ stat.compact_value }}</span>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </section>
 
-<section class="stats-grid">
-    {% for stat in profile.stats %}
-    <article class="glass-card stat-card accent-{{ stat.accent }}">
-        <p>{{ stat.label }}</p>
-        <strong>{{ "{:,}".format(stat.value) }}</strong>
-        <span>{{ stat.compact_value }}</span>
-    </article>
-    {% endfor %}
-</section>
-
-<section class="content-grid">
-    <article class="glass-card insights-card">
-        <div class="section-heading">
-            <p class="eyebrow">Highlights</p>
-            <h2>Portfolio signals</h2>
-        </div>
-        <div class="insight-list">
-            {% for insight in profile.insights %}
-            <div class="insight-item">{{ insight }}</div>
-            {% endfor %}
-        </div>
-
-        <div class="summary-grid">
-            <div>
-                <span>Original projects</span>
-                <strong>{{ profile.original_repo_count }}</strong>
+<section class="analysis-section">
+    <div class="analysis-grid">
+        <div class="analysis-card">
+            <div class="card-header">
+                <div class="header-icon icon-insights">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                </div>
+                <h2>Key Insights</h2>
             </div>
-            <div>
-                <span>Forked projects</span>
-                <strong>{{ profile.forked_repo_count }}</strong>
-            </div>
-            <div>
-                <span>Recently updated</span>
-                <strong>{{ profile.recent_repo_count }}</strong>
-            </div>
-            <div>
-                <span>Archived</span>
-                <strong>{{ profile.archived_count }}</strong>
-            </div>
-        </div>
-    </article>
-
-    <article class="glass-card languages-card">
-        <div class="section-heading">
-            <p class="eyebrow">Stack fingerprint</p>
-            <h2>Language distribution</h2>
-        </div>
-
-        {% if profile.top_languages %}
-            <div class="language-list">
-                {% for language in profile.top_languages %}
-                <div class="language-row">
-                    <div class="language-meta">
-                        <strong>{{ language.name }}</strong>
-                        <span>{{ language.count }} repositories</span>
-                    </div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: {{ language.share }}%"></div>
-                    </div>
-                    <span class="language-share">{{ language.share }}%</span>
+            <div class="insights-content">
+                {% for insight in profile.insights %}
+                <div class="insight-item">
+                    <div class="insight-dot"></div>
+                    <p>{{ insight }}</p>
                 </div>
                 {% endfor %}
             </div>
-        {% else %}
-            <p class="empty-state">No primary languages were available for this account yet.</p>
-        {% endif %}
-    </article>
-</section>
+            <div class="repo-summary">
+                <div class="summary-stat">
+                    <span class="summary-value">{{ profile.original_repo_count }}</span>
+                    <span class="summary-label">Original</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-stat">
+                    <span class="summary-value">{{ profile.forked_repo_count }}</span>
+                    <span class="summary-label">Forked</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-stat">
+                    <span class="summary-value">{{ profile.recent_repo_count }}</span>
+                    <span class="summary-label">Recent</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-stat">
+                    <span class="summary-value">{{ profile.archived_count }}</span>
+                    <span class="summary-label">Archived</span>
+                </div>
+            </div>
+        </div>
 
-<section class="repos-section">
-    <div class="section-heading">
-        <p class="eyebrow">Repository quality</p>
-        <h2>Top public repositories</h2>
-    </div>
-
-    <div class="repo-grid">
-        {% for repo in profile.top_repositories %}
-        <article class="glass-card repo-card">
-            <div class="repo-topline">
-                <span class="repo-language">{{ repo.language }}</span>
-                <span class="repo-updated">Updated {{ repo.updated_at }}</span>
+        <div class="analysis-card">
+            <div class="card-header">
+                <div class="header-icon icon-languages">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 18l4-4-4-4M8 6l-4 4 4 4"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                    </svg>
+                </div>
+                <h2>Tech Stack</h2>
             </div>
-            <h3>{{ repo.name }}</h3>
-            <p>{{ repo.description }}</p>
-            <div class="repo-flags">
-                {% if repo.is_fork %}<span>Fork</span>{% endif %}
-                {% if repo.is_archived %}<span>Archived</span>{% endif %}
-            </div>
-            <div class="repo-metrics">
-                <span>{{ repo.stars }} stars</span>
-                <span>{{ repo.forks }} forks</span>
-                <span>{{ repo.watchers }} watching</span>
-            </div>
-            <div class="link-row">
-                <a href="{{ repo.url }}" target="_blank" rel="noreferrer">Open Repository</a>
-                {% if repo.homepage %}
-                <a href="{{ repo.homepage }}" target="_blank" rel="noreferrer">Live Preview</a>
+            <div class="languages-content">
+                {% if profile.top_languages %}
+                    {% for language in profile.top_languages %}
+                    <div class="language-item">
+                        <div class="language-info">
+                            <span class="language-name">{{ language.name }}</span>
+                            <span class="language-count">{{ language.count }} repos</span>
+                        </div>
+                        <div class="language-bar-container">
+                            <div class="language-bar" style="width: {{ language.share }}%"></div>
+                        </div>
+                        <span class="language-percent">{{ language.share }}%</span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="empty-message">No language data available yet.</p>
                 {% endif %}
             </div>
-        </article>
+        </div>
+    </div>
+</section>
+
+<section class="repositories-section">
+    <div class="section-title-row">
+        <div class="title-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+        </div>
+        <h2>Top Repositories</h2>
+        <span class="title-subtitle">Most starred and impactful projects</span>
+    </div>
+
+    <div class="repositories-grid">
+        {% for repo in profile.top_repositories %}
+        <div class="repo-card">
+            <div class="repo-header">
+                <div class="repo-lang-badge">{{ repo.language or 'Mixed' }}</div>
+                <div class="repo-meta">
+                    <span class="updated-label">Updated {{ repo.updated_at }}</span>
+                </div>
+            </div>
+            
+            <h3 class="repo-name">{{ repo.name }}</h3>
+            <p class="repo-description">{{ repo.description }}</p>
+            
+            <div class="repo-tags">
+                {% if repo.is_fork %}
+                <span class="repo-tag tag-fork">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/>
+                    </svg>
+                    Fork
+                </span>
+                {% endif %}
+                {% if repo.is_archived %}
+                <span class="repo-tag tag-archived">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    Archived
+                </span>
+                {% endif %}
+            </div>
+            
+            <div class="repo-stats">
+                <div class="repo-stat">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    {{ repo.stars }}
+                </div>
+                <div class="repo-stat">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/>
+                    </svg>
+                    {{ repo.forks }}
+                </div>
+                <div class="repo-stat">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    {{ repo.watchers }}
+                </div>
+            </div>
+            
+            <div class="repo-links">
+                <a href="{{ repo.url }}" target="_blank" rel="noreferrer" class="btn-repo-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                    </svg>
+                    Repository
+                </a>
+                {% if repo.homepage %}
+                <a href="{{ repo.homepage }}" target="_blank" rel="noreferrer" class="btn-repo-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                    Live Site
+                </a>
+                {% endif %}
+            </div>
+        </div>
         {% endfor %}
     </div>
 </section>

@@ -1,18 +1,46 @@
 :root {
-    --bg: #f5efe6;
-    --surface: rgba(255, 251, 245, 0.76);
-    --surface-strong: #fffaf2;
-    --ink: #1b1a18;
-    --muted: #615c55;
-    --line: rgba(27, 26, 24, 0.08);
-    --accent: #d67d3e;
-    --accent-deep: #9d4f1d;
-    --accent-blue: #2f6db2;
-    --accent-green: #2d8a66;
-    --accent-gold: #b6881d;
-    --accent-purple: #8a5fd0;
-    --accent-teal: #1c8b86;
-    --shadow: 0 22px 60px rgba(87, 60, 34, 0.12);
+    /* Primary Colors */
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #12121a;
+    --bg-tertiary: #1a1a25;
+    
+    /* Text Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0b0;
+    --text-muted: #6a6a7a;
+    
+    /* Accent Colors */
+    --accent-primary: #6366f1;
+    --accent-secondary: #8b5cf6;
+    --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+    
+    /* Status Colors */
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --info: #3b82f6;
+    
+    /* Surface Colors */
+    --card-bg: rgba(26, 26, 37, 0.6);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-hover: rgba(35, 35, 48, 0.8);
+    
+    /* Orbs */
+    --orb-1: rgba(99, 102, 241, 0.15);
+    --orb-2: rgba(139, 92, 246, 0.12);
+    --orb-3: rgba(168, 85, 247, 0.1);
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --glow: 0 0 40px rgba(99, 102, 241, 0.3);
+    
+    /* Spacing */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
 }
 
 * {
