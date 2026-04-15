@@ -60,25 +60,38 @@ def fetch_json(url, params=None):
             status_code=404,
         )
 
-    if response.status_code == 403 and response.headers.get("X-RateLimit-Remaining") == "0":
-        reset_at = response.headers.get("X-RateLimit-Reset")
-        reset_hint = ""
-        if reset_at:
-            try:
-                reset_time = datetime.fromtimestamp(int(reset_at), tz=timezone.utc)
-                reset_hint = f" Limit resets around {reset_time.strftime('%I:%M %p UTC')}."
-            except (TypeError, ValueError):
-                reset_hint = ""
-
-        token_hint = (
-            ""
-            if get_github_token()
-            else " Add a GitHub token in the GITHUB_TOKEN environment variable to raise the limit."
+    if response.status_code == 403:
+        rate_limit_remaining = response.headers.get("X-RateLimit-Remaining", "")
+        is_rate_limited = (
+            rate_limit_remaining == "0" 
+            or "rate limit" in response.text.lower()
+            or "rate limited" in response.text.lower()
         )
+        
+        if is_rate_limited:
+            reset_at = response.headers.get("X-RateLimit-Reset")
+            reset_hint = ""
+            if reset_at:
+                try:
+                    reset_time = datetime.fromtimestamp(int(reset_at), tz=timezone.utc)
+                    reset_hint = f" Limit resets around {reset_time.strftime('%I:%M %p UTC')}."
+                except (TypeError, ValueError):
+                    reset_hint = ""
+
+            token_hint = (
+                ""
+                if get_github_token()
+                else " Add a GitHub token in the GITHUB_TOKEN environment variable to raise the limit."
+            )
+            raise GitHubAnalyzerError(
+                "GitHub API rate limit reached."
+                f"{reset_hint}{token_hint}",
+                status_code=429,
+            )
+        
         raise GitHubAnalyzerError(
-            "GitHub API rate limit reached."
-            f"{reset_hint}{token_hint}",
-            status_code=429,
+            "GitHub API access forbidden. This may be due to rate limiting or missing permissions.",
+            status_code=403,
         )
 
     if response.status_code >= 400:
